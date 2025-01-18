@@ -1,11 +1,8 @@
 package com.jwt.starter.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,21 +21,14 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Users users = userRepository.findByUserName(username);
+		Optional<Users> users = userRepository.findByUserName(username);
 
-		if(null != users) {
-			return createAutheticatedUser(users);
+		if(null != users && users.isPresent()) {
+			// If users found in DB, then create authenticate user object
+			return users.map(AuthenticatedUser::new).get();
 		} else {
 			throw new UsernameNotFoundException("User Not Found !!");
 		}
 
 	}
-	
-	private UserDetails createAutheticatedUser(Users users) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		users.getRoles().stream().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
-		return 
-				new AuthenticatedUser(users.getUserName(), users.getPassword(), true, true, true, true, authorities, users);
-	}
-
 }

@@ -41,7 +41,6 @@ public class PublicController {
 	public ResponseEntity<Users> createUser(@RequestBody Users users){
 		
 		return ResponseEntity.ok(userService.createUser(users));
-		
 	}
 	
 	@PostMapping("/login")
@@ -52,8 +51,5 @@ public class PublicController {
 		log.info("JWT token generated for username - {}", authenticatedUser.getUsername());
 		
 		return ResponseEntity.ok(jwtUtil.generateToken(authenticatedUser));
-		
 	}
-	
-	
 }

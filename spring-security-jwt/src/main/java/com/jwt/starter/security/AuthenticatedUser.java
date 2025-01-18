@@ -1,8 +1,8 @@
 package com.jwt.starter.security;
 
-import java.util.Collection;
+import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import com.jwt.starter.entities.Users;
@@ -13,10 +13,8 @@ public class AuthenticatedUser extends User{
 	
 	private Users users;
 
-	public AuthenticatedUser(String username, String password, boolean enabled, boolean accountNonExpired,
-			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities, Users users) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+	public AuthenticatedUser(Users users) {
+		super(users.getUserName(), users.getPassword(), true, true, true, true, getAuthorities(users));
 		this.setUsers(users);
 	}
 
@@ -26,6 +24,11 @@ public class AuthenticatedUser extends User{
 
 	public void setUsers(Users users) {
 		this.users = users;
+	}
+	
+	private static List<SimpleGrantedAuthority> getAuthorities(Users users){
+		return 
+				users.getRoles().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r)).toList();
 	}
 
 }
