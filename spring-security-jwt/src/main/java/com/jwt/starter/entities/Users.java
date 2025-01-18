@@ -2,6 +2,7 @@ package com.jwt.starter.entities;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Schema(hidden = true) 
 	private Integer id;
 	
 	private String userName;
@@ -28,6 +30,7 @@ public class Users {
 	
 	private String email;
 	
+	@Schema(hidden = true) 
 	private List<String> roles;
 
 }
