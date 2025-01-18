@@ -16,6 +16,8 @@ import com.jwt.starter.security.AuthenticatedUser;
 import com.jwt.starter.service.JournalService;
 import com.jwt.starter.utils.SecurityContextHolderUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,6 +28,8 @@ public class JournalController {
 	@Autowired
 	private JournalService journalService;
 	
+	@SecurityRequirement(name = "BearerAuth")
+	@Operation(summary = "To get list of journals of sepecific user", description = "Returns list of journals")
 	@GetMapping
 	@PreAuthorize("isAuthenticated()") // Ensures the user is authenticated
 	public ResponseEntity<List<JournalEntry>> getJournalsForUser() {
@@ -36,6 +40,8 @@ public class JournalController {
 				(journalService.getJournalFromUserId(authenticatedUser.getUsers().getId()));
 	}
 	
+	@SecurityRequirement(name = "BearerAuth")
+	@Operation(summary = "To create journal entry", description = "Returns journal object after creation")
 	@PostMapping
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<JournalEntry> createJournalEntryForUser(@RequestBody JournalEntry journalEntry) {

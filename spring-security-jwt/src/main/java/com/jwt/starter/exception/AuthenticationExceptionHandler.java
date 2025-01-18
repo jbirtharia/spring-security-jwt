@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.jwt.starter.payload.AuthenticationExceptionPayload;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
+@Hidden
 public class AuthenticationExceptionHandler {
 	
 	@ExceptionHandler(AuthenticationException.class)

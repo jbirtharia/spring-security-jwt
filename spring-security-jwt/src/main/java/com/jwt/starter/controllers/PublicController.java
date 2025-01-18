@@ -16,6 +16,8 @@ import com.jwt.starter.service.UserDetailsServiceImpl;
 import com.jwt.starter.service.UserService;
 import com.jwt.starter.utils.JwtUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -37,12 +39,16 @@ public class PublicController {
 	private JwtUtil jwtUtil;
 	
 	
+	@SecurityRequirements
+    @Operation(summary = "To create a new user", description = "Returns user object after creation")
 	@PostMapping("/signup")
 	public ResponseEntity<Users> createUser(@RequestBody Users users){
 		
 		return ResponseEntity.ok(userService.createUser(users));
 	}
 	
+	@SecurityRequirements
+    @Operation(summary = "To generate JWT token to access all endpoints", description = "Returns JWT token after authentication")
 	@PostMapping("/login")
 	public ResponseEntity<JwtPayload> login(@RequestBody Users users){
 				

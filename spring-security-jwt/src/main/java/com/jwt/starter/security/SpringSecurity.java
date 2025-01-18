@@ -34,7 +34,7 @@ public class SpringSecurity {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     	 return http.authorizeHttpRequests(request -> request
-                 .requestMatchers("/public/**").permitAll()
+                 .requestMatchers("/public/**","/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html").permitAll()	// Allow Swagger
                  //.requestMatchers("/journals/**").authenticated()
                  //.requestMatchers("/admin/**").hasRole("ADMIN")
                  .anyRequest().authenticated())
