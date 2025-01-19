@@ -3,6 +3,7 @@ package com.jwt.starter.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +37,8 @@ public class JournalController {
 		
 		AuthenticatedUser authenticatedUser = SecurityContextHolderUtil.getAuthenticatedUser();
 		log.info("Fetching journals of user - {}", authenticatedUser.getUsername());
-		return ResponseEntity.ok
-				(journalService.getJournalFromUserId(authenticatedUser.getUsers().getId()));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(journalService.getJournalFromUserId(authenticatedUser.getUsers().getId()));
 	}
 	
 	@SecurityRequirement(name = "BearerAuth")
@@ -49,8 +50,8 @@ public class JournalController {
 		AuthenticatedUser authenticatedUser = SecurityContextHolderUtil.getAuthenticatedUser();
 		log.info("Creating journals of user - {}", authenticatedUser.getUsername());
 		journalEntry.setUserId(authenticatedUser.getUsers().getId());
-		return ResponseEntity.ok
-				(journalService.createJournalForUser(journalEntry));
+		return ResponseEntity.status(HttpStatus.OK)
+				.body((journalService.createJournalForUser(journalEntry)));
 	}
 	
 
