@@ -37,7 +37,7 @@ public class JournalController {
 		
 		AuthenticatedUser authenticatedUser = SecurityContextHolderUtil.getAuthenticatedUser();
 		log.info("Fetching journals of user - {}", authenticatedUser.getUsername());
-		return ResponseEntity.status(HttpStatus.CREATED)
+		return ResponseEntity.status(HttpStatus.OK)
 				.body(journalService.getJournalFromUserId(authenticatedUser.getUsers().getId()));
 	}
 	

@@ -56,7 +56,6 @@ public class PublicController {
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(users.getUserName(), users.getPassword()));
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) userDetailsServiceImpl.loadUserByUsername(users.getUserName());
 		log.info("JWT token generated for username - {}", authenticatedUser.getUsername());
-		
 		return ResponseEntity.status(HttpStatus.OK).body(jwtUtil.generateToken(authenticatedUser));
 	}
 }
