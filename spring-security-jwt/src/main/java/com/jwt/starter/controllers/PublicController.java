@@ -21,6 +21,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/public")
 @Slf4j
@@ -44,7 +46,7 @@ public class PublicController {
     @Operation(summary = "To create a new user", description = "Returns user object after creation")
 	@PostMapping("/signup")
 	public ResponseEntity<Users> createUser(@RequestBody Users users){
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(users));
 	}
 	
@@ -57,5 +59,13 @@ public class PublicController {
 		AuthenticatedUser authenticatedUser = (AuthenticatedUser) userDetailsServiceImpl.loadUserByUsername(users.getUserName());
 		log.info("JWT token generated for username - {}", authenticatedUser.getUsername());
 		return ResponseEntity.status(HttpStatus.OK).body(jwtUtil.generateToken(authenticatedUser));
+	}
+
+	@SecurityRequirements
+	@Operation(summary = "To get list of users", description = "Returns user list")
+	@PostMapping("/users")
+	public ResponseEntity<List<Users>> getUsers(){
+
+		return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
 	}
 }

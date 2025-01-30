@@ -1,6 +1,7 @@
 package com.jwt.starter.service;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,8 +25,11 @@ public class UserService {
 	@Transactional
 	public Users createUser(Users users) {
 		users.setPassword(passwordEncoder.encode(users.getPassword()));
-		users.setRoles(Arrays.asList("USER"));
+		users.setRoles(List.of("USER"));
 		return userRepository.save(users);
 	}
 
+	public List<Users> getAllUsers(){
+		return userRepository.findAll();
+	}
 }

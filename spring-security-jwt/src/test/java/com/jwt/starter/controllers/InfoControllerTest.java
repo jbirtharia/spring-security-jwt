@@ -45,28 +45,31 @@ public class InfoControllerTest {
 
     private static final String INFO_KEY = "Info";
 
+    /// Mockito follows business driven development. Need to provide given-when-then.
     @Test
     void testStatusOfGetAppInfo_Success() throws Exception {
-        // Arrange
+        // Given
         AppInfo appInfo = AppInfo.builder()
         		.appName("Test App").version("1.0.0").build();
-        
+
+        // When
         when(redisService.getObject(INFO_KEY, AppInfo.class)).thenReturn(appInfo);
 
-        // Act & Assert
+        // Then
         mockMvc.perform(get("/info"))
                 .andExpect(status().isOk());
     }
     
     @Test
     void testPostAppInfoIfNoObjectInRedis_Success() throws Exception {
-    	 // Arrange
+    	 // Given
         AppInfo app = AppInfo.builder().id(1)
         		.appName("Journal App").version("1.0.0").build();
 
+        // When
         when(redisService.getObject(INFO_KEY, AppInfo.class)).thenReturn(app);
 
-        // Act and Assert
+        // Then
         mockMvc.perform(post("/info")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(app))) // Pass content without headers
